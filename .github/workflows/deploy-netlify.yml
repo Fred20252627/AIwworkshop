@@ -24,21 +24,22 @@ jobs:
 
       - name: Deploy to Netlify (production)
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           PROJECT_ID_NETILIFY: ${{ secrets.PROJECT_ID_NETILIFY }}
           PROJECT_ID_TRUE: ${{ secrets.PROJECT_ID_TRUE }}
         run: |
           echo "Deploying commit $GITHUB_SHA to Netlify prod..."
-          # Deploy current repo root as publish dir (static site)
+          # Use provided secrets: PROJECT_ID_NETILIFY (token), PROJECT_ID_TRUE (site id)
           netlify deploy \
-            --auth "$NETLIFY_AUTH_TOKEN" \
-            --site "$NETLIFY_SITE_ID" \
+            --auth "$PROJECT_ID_NETILIFY" \
+            --site "$PROJECT_ID_TRUE" \
             --dir "." \
             --prod \
             --message "GitHub Actions deploy $GITHUB_SHA"
 
       - name: Print deploy metadata (sanitized)
+        env:
+          PROJECT_ID_NETILIFY: ${{ secrets.PROJECT_ID_NETILIFY }}
+          PROJECT_ID_TRUE: ${{ secrets.PROJECT_ID_TRUE }}
         run: |
           echo "PROJECT_ID_NETILIFY set: ${PROJECT_ID_NETILIFY:+yes}" 
           echo "PROJECT_ID_TRUE set: ${PROJECT_ID_TRUE:+yes}"
