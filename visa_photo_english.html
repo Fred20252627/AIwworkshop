@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Visa Photo - Free Online Standard Visa Photo Maker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .step.active .step-number {
+            background: #667eea;
+        }
+        
+        .step.completed .step-number {
+            background: #4caf50;
+        }
+        
+        .step.pending .step-number {
+            background: #ccc;
+        }
+        
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .country-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        
+        .country-card:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateY(-2px);
+        }
+        
+        .country-card.selected {
+            border-color: #667eea;
+            background: #e8f0fe;
+        }
+        
+        .country-flag {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .upload-area {
+            border: 3px dashed #ccc;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: #e8f0fe;
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .requirements {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .requirements h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .req-list {
+            list-style: none;
+        }
+        
+        .req-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .req-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .preview-section {
+            display: none;
+            margin-top: 40px;
+        }
+        
+        .preview-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .preview-card {
+            text-align: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .preview-image {
+            width: 200px;
+            height: 250px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 0 auto 15px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+        
+        .ad-banner {
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            color: #666;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .preview-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .step-indicator {
+                flex-wrap: wrap;
+            }
+        }
+        
+        /* Donation styles */
+        .donation-option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            min-width: 140px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .donation-option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+        
+        .donation-option h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .donation-option p {
+            color: #667eea;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .donation-btn {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            font-size: 1rem;
+            padding: 12px 20px;
+        }
+        
+        .donation-btn:hover {
+            background: linear-gradient(135deg, #45a049, #3d8b40);
+        }
+        
+        #customAmountBtn {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+        }
+        
+        #customAmountBtn:hover {
+            background: linear-gradient(135deg, #f57c00, #ef6c00);
+        }
+        
+        /* Stats styles */
+        .stat-item {
+            padding: 15px;
+            min-width: 100px;
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        /* Photo specifications styles */
+        .spec-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        
+        .spec-item strong {
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .spec-item span {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 Smart Visa Photo</h1>
+            <p class="subtitle">AI-powered, one-click generation of standard photos meeting visa requirements for all countries</p>
+        </header>
+        
+        <div class="main-card">
+            <!-- Step indicator -->
+            <div class="step-indicator">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <span>Select Country</span>
+                </div>
+                <div class="step pending">
+                    <div class="step-number">2</div>
+                    <span>Upload Photo</span>
+                </div>
+                <div class="step pending">
+                    <div class="step-number">3</div>
+                    <span>AI Processing</span>
+                </div>
+                <div class="step pending">
+                    <div class="step-number">4</div>
+                    <span>Download Photo</span>
+                </div>
+            </div>
+            
+            <!-- Country selection -->
+            <div class="country-selector" id="countrySelector">
+                <h2 style="text-align: center; margin-bottom: 25px; color: #333;">Select Visa Application Country</h2>
+                <div class="country-grid">
+                    <div class="country-card" data-country="usa">
+                        <div class="country-flag">🇺🇸</div>
+                        <h3>USA</h3>
+                        <p>2x2 inches White background</p>
+                    </div>
+                    <div class="country-card" data-country="uk">
+                        <div class="country-flag">🇬🇧</div>
+                        <h3>UK</h3>
+                        <p>35x45mm Light grey background</p>
+                    </div>
+                    <div class="country-card" data-country="canada">
+                        <div class="country-flag">🇨🇦</div>
+                        <h3>Canada</h3>
+                        <p>50x70mm White background</p>
+                    </div>
+                    <div class="country-card" data-country="australia">
+                        <div class="country-flag">🇦🇺</div>
+                        <h3>Australia</h3>
+                        <p>45x35mm Light background</p>
+                    </div>
+                    <div class="country-card" data-country="japan">
+                        <div class="country-flag">🇯🇵</div>
+                        <h3>Japan</h3>
+                        <p>4.5x4.5cm White background</p>
+                    </div>
+                    <div class="country-card" data-country="schengen">
+                        <div class="country-flag">🇪🇺</div>
+                        <h3>Schengen Visa</h3>
+                        <p>35x45mm Light background</p>
+                    </div>
+                    <div class="country-card" data-country="china">
+                        <div class="country-flag">🇨🇳</div>
+                        <h3>China</h3>
+                        <p>33x48mm White background</p>
+                    </div>
+                    <div class="country-card" data-country="india">
+                        <div class="country-flag">🇮🇳</div>
+                        <h3>India</h3>
+                        <p>50x50mm White background</p>
+                    </div>
+                    <div class="country-card" data-country="germany">
+                        <div class="country-flag">🇩🇪</div>
+                        <h3>Germany</h3>
+                        <p>35x45mm Light grey background</p>
+                    </div>
+                    <div class="country-card" data-country="france">
+                        <div class="country-flag">🇫🇷</div>
+                        <h3>France</h3>
+                        <p>35x45mm White/Light grey background</p>
+                    </div>
+                    <div class="country-card" data-country="korea">
+                        <div class="country-flag">🇰🇷</div>
+                        <h3>South Korea</h3>
+                        <p>35x45mm Light/White background</p>
+                    </div>
+                    <div class="country-card" data-country="newzealand">
+                        <div class="country-flag">🇳🇿</div>
+                        <h3>New Zealand</h3>
+                        <p>Portrait 4:3 Light background</p>
+                    </div>
+                    <div class="country-card" data-country="egypt">
+                        <div class="country-flag">🇪🇬</div>
+                        <h3>Egypt</h3>
+                        <p>40x60mm White background</p>
+                    </div>
+                    <div class="country-card" data-country="brazil">
+                        <div class="country-flag">🇧🇷</div>
+                        <h3>Brazil</h3>
+                        <p>35x45mm White/Light grey background</p>
+                    </div>
+                    <div class="country-card" data-country="argentina">
+                        <div class="country-flag">🇦🇷</div>
+                        <h3>Argentina</h3>
+                        <p>40x40mm White background</p>
+                    </div>
+                    <div class="country-card" data-country="philippines">
+                        <div class="country-flag">🇵🇭</div>
+                        <h3>Philippines</h3>
+                        <p>50x50mm White background</p>
+                    </div>
+                    <div class="country-card" data-country="mexico">
+                        <div class="country-flag">🇲🇽</div>
+                        <h3>Mexico</h3>
+                        <p>39x31mm White background</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Visa requirements display -->
+            <div class="requirements" id="requirements">
+                <h3>📋 Visa Photo Requirements</h3>
+                <ul class="req-list">
+                    <li>Please select target country to view specific requirements</li>
+                </ul>
+            </div>
+            
+            <!-- Upload area -->
+            <div class="upload-area" id="uploadArea" style="display: none;">
+                <div class="upload-icon">📷</div>
+                <h3>Upload Your Portrait Photo</h3>
+                <p style="margin: 15px 0;">Supports JPG, PNG formats, file size under 10MB</p>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                <button class="btn" onclick="document.getElementById('fileInput').click()">Choose Photo</button>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                    Or drag and drop photo to this area
+                </p>
+            </div>
+            
+            <!-- Ad space 1 -->
+            <div class="ad-banner" id="ad1" style="display: none;">
+                <p>📢 Google AdSense Ad Space - 728x90</p>
+                <p style="font-size: 0.8rem; margin-top: 5px;">Related services recommended during processing</p>
+            </div>
+            
+            <!-- Processing progress -->
+            <div id="processSection" style="display: none;">
+                <h3 style="text-align: center; margin: 30px 0;">🤖 AI is processing your photo...</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText" style="text-align: center; color: #666;">Performing facial recognition...</p>
+            </div>
+            
+            <!-- Results preview -->
+            <div class="preview-section" id="previewSection">
+                <h2 style="text-align: center; margin-bottom: 30px;">📸 Processing Results Comparison</h2>
+                
+                <!-- Ad space 2 -->
+                <div class="ad-banner">
+                    <p>📢 Google AdSense Ad Space - Responsive banner</p>
+                </div>
+                
+                <div class="preview-container">
+                    <div class="preview-card">
+                        <h3>Original Photo</h3>
+                        <div class="preview-image">
+                            <span>Original portrait</span>
+                        </div>
+                    </div>
+                    <div class="preview-card">
+                        <h3>Processed Photo ✨</h3>
+                        <div class="preview-image" style="border-color: #4caf50;">
+                            <span>Meets visa requirements</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="btn" id="adjustBtn" style="margin-right: 15px;">🔧 Fine-tune Photo</button>
+                    <button class="btn" id="downloadBtn">⬇️ Download HD Photo</button>
+                </div>
+                
+                <!-- Ad space 3 -->
+                <div class="ad-banner">
+                    <p>📢 Google AdSense Ad Space - Rectangle banner</p>
+                    <p style="font-size: 0.8rem; margin-top: 5px;">Related visa services recommended for you</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Feedback area -->
+        <div class="main-card" id="feedbackSection" style="display: none;">
+            <h3 style="text-align: center; margin-bottom: 20px;">📝 Help Us Improve</h3>
+            <div style="text-align: center;">
+                <p style="margin-bottom: 20px;">Are you satisfied with the processing results?</p>
+                <button class="btn" style="margin: 0 10px; background: #4caf50;">😊 Very satisfied</button>
+                <button class="btn" style="margin: 0 10px; background: #ff9800;">😐 Okay</button>
+                <button class="btn" style="margin: 0 10px; background: #f44336;">😞 Needs improvement</button>
+            </div>
+        </div>
+        
+        <!-- Donation Section -->
+        <div class="main-card">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: #667eea; margin-bottom: 15px;">💝 Support Us</h2>
+                <p style="color: #666; font-size: 1.1rem; line-height: 1.6;">
+                    If you find this visa photo tool helpful, please consider donating to support our development.<br>
+                    Your support helps us improve the service and provide better experience for more users.
+                </p>
+            </div>
+            
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
+                <div class="donation-option">
+                    <h4>☕ Coffee</h4>
+                    <p>$2</p>
+                    <button class="btn donation-btn" data-amount="200" data-currency="usd">Donate</button>
+                </div>
+                <div class="donation-option">
+                    <h4>🍕 Lunch</h4>
+                    <p>$5</p>
+                    <button class="btn donation-btn" data-amount="500" data-currency="usd">Donate</button>
+                </div>
+                <div class="donation-option">
+                    <h4>🎁 Special Support</h4>
+                    <p>$10</p>
+                    <button class="btn donation-btn" data-amount="1000" data-currency="usd">Donate</button>
+                </div>
+                <div class="donation-option">
+                    <h4>💎 Custom Amount</h4>
+                    <p>Enter Amount</p>
+                    <button class="btn donation-btn" id="customAmountBtn">Custom</button>
+                </div>
+            </div>
+            
+            <!-- Custom amount input -->
+            <div id="customAmountSection" style="display: none; text-align: center; margin: 20px 0;">
+                <div style="max-width: 300px; margin: 0 auto;">
+                    <input type="number" id="customAmount" placeholder="Enter amount (USD)" min="1" step="1" style="
+                        width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; 
+                        font-size: 16px; margin-bottom: 15px; text-align: center;
+                    ">
+                    <button class="btn" id="confirmCustomAmount">Confirm Donation</button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="color: #999; font-size: 0.9rem;">
+                    💳 Secure Payment · Supports Credit Cards, Debit Cards, and Digital Wallets
+                </p>
+            </div>
+            
+            <!-- Donation Stats -->
+            <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; margin-top: 25px;">
+                <div style="display: flex; justify-content: space-around; text-align: center; flex-wrap: wrap;">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalDonors">0</div>
+                        <div class="stat-label">Donors</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalAmount">$0</div>
+                        <div class="stat-label">Total Amount</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="monthlyGoal">$100</div>
+                        <div class="stat-label">Monthly Goal</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <div style="background: #e0e0e0; height: 8px; border-radius: 4px; overflow: hidden;">
+                        <div id="goalProgress" style="background: linear-gradient(90deg, #4caf50, #45a049); height: 100%; width: 0%; transition: width 0.5s ease;"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; color: #666; font-size: 0.9rem;">
+                        Goal Progress: <span id="progressPercent">0%</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stripe Script -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <script>
+        // Global variables
+        let currentStep = 1;
+        let selectedCountry = null;
+        
+        // Country requirements data
+        const countryRequirements = {
+            usa: "USA visa requirements: 2x2 inches square, pure white background, head occupies 50%-69%",
+            uk: "UK visa requirements: 35x45mm vertical, light grey background, head occupies 60%-80%, ensure complete head display",
+            canada: "Canada visa requirements: 50x70mm, pure white background, head 31-36mm",
+            australia: "Australia visa requirements: 45x35mm horizontal, light background, head occupies 70%-80%, ensure complete head display",
+            japan: "Japan visa requirements: 4.5x4.5cm square, pure white background, head occupies 75%-80%",
+            schengen: "Schengen visa requirements: 35x45mm, light background, head occupies 70%-80%",
+            china: "China visa requirements: 33x48mm vertical, pure white background, head width 15-22mm, height 28-33mm, taken within 6 months",
+            india: "India visa requirements: 50x50mm square, pure white background, head size 25-35mm, JPEG format 350x350-1000x1000px",
+            germany: "Germany visa requirements: 35x45mm vertical, neutral grey background (contrast with hair/face color), high quality without shadows",
+            france: "France visa requirements: 35x45mm vertical (±5mm tolerance), pure white or light grey background, color photo with neutral expression",
+            korea: "South Korea visa requirements: 35x45mm vertical, light or white background, face length 25-35mm, neutral expression with open eyes",
+            newzealand: "New Zealand visa requirements: Portrait 4:3 ratio, light background (not pure white), 900-4500px width, 1200-6000px height",
+            egypt: "Egypt visa requirements: 40x60mm vertical, pure white background, face occupies 70-80%, color photo with neutral expression",
+            brazil: "Brazil visa requirements: 35x45mm vertical, pure white or light grey background, color photo without teeth showing",
+            argentina: "Argentina visa requirements: 40x40mm square, pure white background, color photo with front-facing view",
+            philippines: "Philippines visa requirements: 50x50mm square, pure white background, head occupies 70%-80%, front facing",
+            mexico: "Mexico visa requirements: 39x31mm horizontal, pure white background, head occupies 65%-75%, no accessories"
+        };
+        
+        // Enhanced high-quality image processing function
+        function processImageForVisa(imageDataUrl) {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                img.onload = function() {
+                    let targetWidth, targetHeight;
+                    
+                    // Calculate exact dimensions based on official requirements
+                    // Using 300 DPI for high quality output
+                    switch(selectedCountry) {
+                        case 'usa':
+                            // USA: 2x2 inches = 50.8x50.8mm = 600x600px at 300 DPI
+                            targetWidth = targetHeight = 600;
+                            break;
+                        case 'japan':
+                            // Japan: 4.5x4.5cm = 45x45mm = 531x531px at 300 DPI
+                            targetWidth = targetHeight = 531;
+                            break;
+                        case 'uk':
+                            // UK: 35x45mm = 413x531px at 300 DPI
+                            targetWidth = 413; targetHeight = 531;
+                            break;
+                        case 'australia':
+                            // Australia: 45x35mm = 531x413px at 300 DPI (horizontal)
+                            targetWidth = 531; targetHeight = 413;
+                            break;
+                        case 'newzealand':
+                            // New Zealand: 4:3 ratio, 35x45mm equivalent = 413x531px at 300 DPI
+                            targetWidth = 413; targetHeight = 531;
+                            break;
+                        case 'canada':
+                            // Canada: 50x70mm = 591x827px at 300 DPI
+                            targetWidth = 591; targetHeight = 827;
+                            break;
+                        case 'schengen':
+                        case 'germany':
+                        case 'france':
+                        case 'korea':
+                            // Schengen countries: 35x45mm = 413x531px at 300 DPI
+                            targetWidth = 413; targetHeight = 531;
+                            break;
+                        case 'china':
+                            // China: 33x48mm = 390x566px at 300 DPI
+                            targetWidth = 390; targetHeight = 566;
+                            break;
+                        case 'india':
+                            // India: 50x50mm = 591x591px at 300 DPI
+                            targetWidth = targetHeight = 591;
+                            break;
+                        case 'egypt':
+                            // Egypt: 40x60mm = 472x708px at 300 DPI
+                            targetWidth = 472; targetHeight = 708;
+                            break;
+                        case 'brazil':
+                            // Brazil: 35x45mm = 413x531px at 300 DPI
+                            targetWidth = 413; targetHeight = 531;
+                            break;
+                        case 'argentina':
+                            // Argentina: 40x40mm = 472x472px at 300 DPI
+                            targetWidth = targetHeight = 472;
+                            break;
+                        case 'philippines':
+                            // Philippines: 50x50mm = 591x591px at 300 DPI
+                            targetWidth = targetHeight = 591;
+                            break;
+                        case 'mexico':
+                            // Mexico: 39x31mm = 460x366px at 300 DPI (horizontal)
+                            targetWidth = 460; targetHeight = 366;
+                            break;
+                        default:
+                            targetWidth = targetHeight = 600; // Default to USA standard
+                    }
+                    
+                    canvas.width = targetWidth;
+                    canvas.height = targetHeight;
+                    
+                    // Enable high-quality rendering
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    
+                    // Fill with appropriate background color based on country
+                    let backgroundColor = '#FFFFFF'; // Default white
+                    if (selectedCountry === 'uk' || selectedCountry === 'germany') {
+                        backgroundColor = '#F5F5F5'; // Light grey for UK and Germany
+                    }
+                    ctx.fillStyle = backgroundColor;
+                    ctx.fillRect(0, 0, targetWidth, targetHeight);
+                    
+                    // Note: Background will be completely covered by the image
+                    // as we're using Math.max() scaling to ensure full coverage
+                    
+                    const sourceAspectRatio = img.width / img.height;
+                    let drawWidth, drawHeight, drawX, drawY;
+                    
+                    // Calculate scaling to completely fill the canvas without white borders
+                    // Use the larger scale to ensure full coverage
+                    const scaleToFillWidth = targetWidth / img.width;
+                    const scaleToFillHeight = targetHeight / img.height;
+                    let scale = Math.max(scaleToFillWidth, scaleToFillHeight);
+                    
+                    // Calculate dimensions to fill the entire canvas
+                    drawWidth = img.width * scale;
+                    drawHeight = img.height * scale;
+                    
+                    // Position image to center the face and fill the entire canvas
+                    // This ensures no white borders while keeping the head fully visible
+                    drawX = (targetWidth - drawWidth) / 2;
+                    drawY = (targetHeight - drawHeight) / 2;
+                    
+                    // Smart positioning to ensure head is always visible and well-centered
+                    if (selectedCountry !== 'australia' && selectedCountry !== 'mexico') {
+                        // For vertical formats: ensure head is completely within the frame
+                        // Different countries have different head positioning requirements
+                        if (selectedCountry === 'japan') {
+                            // Japan: head must be completely within frame, no cropping allowed
+                            const headTopMargin = drawHeight * 0.1; // Reserve only 10% for head positioning
+                            if (drawY > -headTopMargin) {
+                                drawY = -headTopMargin;
+                            }
+                            // Ensure head doesn't go below the frame
+                            if (drawY < -(drawHeight - targetHeight)) {
+                                drawY = -(drawHeight - targetHeight);
+                            }
+                        } else if (selectedCountry === 'usa') {
+                            // USA: head occupies 50%-69% of frame
+                            const headTopMargin = drawHeight * 0.15; // Reserve 15% for head
+                            if (drawY > -headTopMargin) {
+                                drawY = -headTopMargin;
+                            }
+                        } else {
+                            // Other countries: standard head positioning
+                            const headTopMargin = drawHeight * 0.2; // Reserve 20% for head
+                            if (drawY > -headTopMargin) {
+                                drawY = -headTopMargin;
+                            }
+                        }
+                    } else {
+                        // For horizontal formats: ensure face is centered horizontally
+                        // and not cut off at the sides
+                        const faceCenterMargin = drawWidth * 0.15; // Reserve 15% for face centering
+                        if (Math.abs(drawX) > faceCenterMargin) {
+                            drawX = drawX > 0 ? faceCenterMargin : -faceCenterMargin;
+                        }
+                    }
+                    
+                    // Draw image to completely fill the canvas
+                    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+                    
+                    // Additional safety check for Japan: ensure head is completely within frame
+                    if (selectedCountry === 'japan') {
+                        // For Japan, we need to be extra careful about head positioning
+                        // If the head is still too close to the top, adjust the scale slightly
+                        if (drawY > -drawHeight * 0.05) {
+                            // Reduce scale slightly to ensure head fits completely
+                            const adjustedScale = scale * 0.95;
+                            const adjustedWidth = img.width * adjustedScale;
+                            const adjustedHeight = img.height * adjustedScale;
+                            
+                            // Clear canvas and redraw with adjusted scale
+                            ctx.clearRect(0, 0, targetWidth, targetHeight);
+                            ctx.fillStyle = backgroundColor;
+                            ctx.fillRect(0, 0, targetWidth, targetHeight);
+                            
+                            // Recalculate position with adjusted scale
+                            const newDrawX = (targetWidth - adjustedWidth) / 2;
+                            const newDrawY = (targetHeight - adjustedHeight) / 2;
+                            
+                            // Ensure head is well within frame
+                            if (newDrawY > -adjustedHeight * 0.1) {
+                                drawY = -adjustedHeight * 0.1;
+                            } else {
+                                drawY = newDrawY;
+                            }
+                            drawX = newDrawX;
+                            drawWidth = adjustedWidth;
+                            drawHeight = adjustedHeight;
+                            
+                            // Redraw with adjusted parameters
+                            ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+                        }
+                    }
+                    
+                    // Enhanced image processing for better clarity
+                    const imageData = ctx.getImageData(0, 0, targetWidth, targetHeight);
+                    const data = imageData.data;
+                    
+                    // Apply subtle enhancement for better visa photo quality
+                    for (let i = 0; i < data.length; i += 4) {
+                        // Subtle brightness and contrast adjustment
+                        const brightness = 1.01; // Very minimal brightness increase
+                        const contrast = 1.03; // Very subtle contrast enhancement
+                        
+                        // Apply gamma correction for better color balance
+                        const gamma = 0.98;
+                        
+                        data[i] = Math.min(255, Math.max(0, Math.pow(((data[i] - 128) * contrast + 128) * brightness / 255, gamma) * 255));
+                        data[i + 1] = Math.min(255, Math.max(0, Math.pow(((data[i + 1] - 128) * contrast + 128) * brightness / 255, gamma) * 255));
+                        data[i + 2] = Math.min(255, Math.max(0, Math.pow(((data[i + 2] - 128) * contrast + 128) * brightness / 255, gamma) * 255));
+                    }
+                    
+                    ctx.putImageData(imageData, 0, 0);
+                    
+                    // Output with maximum quality
+                    resolve(canvas.toDataURL('image/jpeg', 0.95));
+                };
+                
+                img.src = imageDataUrl;
+            });
+        }
+        
+        // Show message
+        function showMessage(text, type = 'info') {
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                position: fixed; top: 20px; right: 20px; padding: 15px 25px;
+                border-radius: 8px; color: white; font-weight: 500; z-index: 1000;
+                max-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transform: translateX(400px); transition: transform 0.3s ease;
+                background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+            `;
+            
+            messageDiv.textContent = text;
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => messageDiv.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                messageDiv.style.transform = 'translateX(400px)';
+                setTimeout(() => messageDiv.remove(), 300);
+            }, 3000);
+        }
+        
+        // Show requirements
+        function showRequirements(country) {
+            const reqElement = document.getElementById('requirements');
+            const list = reqElement.querySelector('.req-list');
+            
+            if (countryRequirements[country]) {
+                list.innerHTML = `<li>${countryRequirements[country]}</li>`;
+                reqElement.style.display = 'block';
+            }
+        }
+        
+        // Handle file upload
+        function handleFileUpload(file) {
+            if (!file.type.startsWith('image/')) {
+                showMessage('Please upload an image file!', 'error');
+                return;
+            }
+            
+            if (file.size > 10 * 1024 * 1024) {
+                showMessage('File size cannot exceed 10MB!', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                window.originalImage = e.target.result;
+                document.getElementById('ad1').style.display = 'block';
+                startProcessing();
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // Start processing
+        function startProcessing() {
+            updateStep(3);
+            document.getElementById('processSection').style.display = 'block';
+            
+            let progress = 0;
+            const progressSteps = [
+                "Performing facial recognition...",
+                "Adjusting background color...",
+                "Optimizing photo dimensions...",
+                "Generating final photo..."
+            ];
+            
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 25;
+                if (progress > 100) progress = 100;
+                
+                document.getElementById('progressFill').style.width = progress + '%';
+                
+                const stepIndex = Math.floor(progress / 25);
+                if (stepIndex < progressSteps.length) {
+                    document.getElementById('progressText').textContent = progressSteps[stepIndex];
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(showResults, 1000);
+                }
+            }, 600);
+        }
+        
+        // Show results
+        function showResults() {
+            updateStep(4);
+            document.getElementById('processSection').style.display = 'none';
+            
+            const originalPreview = document.querySelector('.preview-container .preview-card:first-child .preview-image');
+            originalPreview.innerHTML = `<img src="${window.originalImage}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">`;
+            
+            processImageForVisa(window.originalImage).then(processedImageUrl => {
+                const processedPreview = document.querySelector('.preview-container .preview-card:last-child .preview-image');
+                processedPreview.innerHTML = `<img src="${processedImageUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">`;
+                
+                window.processedImage = processedImageUrl;
+                
+                // Add photo specifications display
+                showPhotoSpecifications();
+                
+                document.getElementById('previewSection').style.display = 'block';
+                document.getElementById('feedbackSection').style.display = 'block';
+            });
+        }
+        
+        // Show photo specifications
+        function showPhotoSpecifications() {
+            const previewSection = document.getElementById('previewSection');
+            
+            // Create specifications display
+            const specsDiv = document.createElement('div');
+            specsDiv.style.cssText = `
+                background: #f8f9fa; border-radius: 12px; padding: 25px; margin: 25px 0;
+                border-left: 4px solid #667eea;
+            `;
+            
+            const countryName = getCountryDisplayName(selectedCountry);
+            const specs = getPhotoSpecifications(selectedCountry);
+            
+            specsDiv.innerHTML = `
+                <h3 style="color: #667eea; margin-bottom: 20px;">📏 Photo Specifications for ${countryName}</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div class="spec-item">
+                        <strong>Dimensions:</strong><br>
+                        <span style="color: #4caf50;">${specs.dimensions}</span>
+                    </div>
+                    <div class="spec-item">
+                        <strong>Resolution:</strong><br>
+                        <span style="color: #4caf50;">${specs.resolution}</span>
+                    </div>
+                    <div class="spec-item">
+                        <strong>Background:</strong><br>
+                        <span style="color: #4caf50;">${specs.background}</span>
+                    </div>
+                    <div class="spec-item">
+                        <strong>Face Coverage:</strong><br>
+                        <span style="color: #4caf50;">${specs.faceCoverage}</span>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 8px; border-left: 4px solid #4caf50;">
+                    <strong>✅ Verification:</strong> Your photo has been processed to meet ${countryName} visa requirements.
+                    The output dimensions are exactly ${specs.resolution} at 300 DPI for optimal quality.
+                    <br><strong>✨ No white borders:</strong> Photo completely fills the frame while maintaining head visibility.
+                    ${selectedCountry === 'japan' ? '<br><strong>🇯🇵 Japan Special:</strong> Head is guaranteed to be completely within frame with no cropping.' : ''}
+                </div>
+            `;
+            
+            // Insert after the preview container
+            const previewContainer = previewSection.querySelector('.preview-container');
+            previewContainer.parentNode.insertBefore(specsDiv, previewContainer.nextSibling);
+        }
+        
+        // Get country display name
+        function getCountryDisplayName(countryCode) {
+            const countryNames = {
+                usa: 'USA',
+                uk: 'United Kingdom',
+                canada: 'Canada',
+                australia: 'Australia',
+                japan: 'Japan',
+                schengen: 'Schengen Area',
+                china: 'China',
+                india: 'India',
+                germany: 'Germany',
+                france: 'France',
+                korea: 'South Korea',
+                newzealand: 'New Zealand',
+                egypt: 'Egypt',
+                brazil: 'Brazil',
+                argentina: 'Argentina',
+                philippines: 'Philippines',
+                mexico: 'Mexico'
+            };
+            return countryNames[countryCode] || countryCode.toUpperCase();
+        }
+        
+        // Get photo specifications
+        function getPhotoSpecifications(countryCode) {
+            const specs = {
+                usa: {
+                    dimensions: '2×2 inches (50.8×50.8 mm)',
+                    resolution: '600×600 pixels',
+                    background: 'Pure white',
+                    faceCoverage: '50%-69% of frame'
+                },
+                uk: {
+                    dimensions: '35×45 mm',
+                    resolution: '413×531 pixels',
+                    background: 'Light grey',
+                    faceCoverage: '60%-80% of frame'
+                },
+                canada: {
+                    dimensions: '50×70 mm',
+                    resolution: '591×827 pixels',
+                    background: 'Pure white',
+                    faceCoverage: '31-36mm head height'
+                },
+                australia: {
+                    dimensions: '45×35 mm (horizontal)',
+                    resolution: '531×413 pixels',
+                    background: 'Light background',
+                    faceCoverage: '70%-80% of frame'
+                },
+                japan: {
+                    dimensions: '4.5×4.5 cm',
+                    resolution: '531×531 pixels',
+                    background: 'Pure white',
+                    faceCoverage: 'Head must be completely within frame, no cropping allowed'
+                },
+                schengen: {
+                    dimensions: '35×45 mm',
+                    resolution: '413×531 pixels',
+                    background: 'Light background',
+                    faceCoverage: '70%-80% of frame'
+                },
+                china: {
+                    dimensions: '33×48 mm',
+                    resolution: '390×566 pixels',
+                    background: 'Pure white',
+                    faceCoverage: 'Head width 15-22mm, height 28-33mm'
+                },
+                india: {
+                    dimensions: '50×50 mm',
+                    resolution: '591×591 pixels',
+                    background: 'Pure white',
+                    faceCoverage: 'Head size 25-35mm'
+                },
+                germany: {
+                    dimensions: '35×45 mm',
+                    resolution: '413×531 pixels',
+                    background: 'Neutral grey',
+                    faceCoverage: '70%-80% of frame'
+                },
+                france: {
+                    dimensions: '35×45 mm (±5mm)',
+                    resolution: '413×531 pixels',
+                    background: 'White or light grey',
+                    faceCoverage: '70%-80% of frame'
+                },
+                korea: {
+                    dimensions: '35×45 mm',
+                    resolution: '413×531 pixels',
+                    background: 'Light or white',
+                    faceCoverage: 'Face length 25-35mm'
+                },
+                newzealand: {
+                    dimensions: '4:3 ratio portrait',
+                    resolution: '413×531 pixels',
+                    background: 'Light background',
+                    faceCoverage: '70%-80% of frame'
+                },
+                egypt: {
+                    dimensions: '40×60 mm',
+                    resolution: '472×708 pixels',
+                    background: 'Pure white',
+                    faceCoverage: '70%-80% of frame'
+                },
+                brazil: {
+                    dimensions: '35×45 mm',
+                    resolution: '413×531 pixels',
+                    background: 'White or light grey',
+                    faceCoverage: '70%-80% of frame'
+                },
+                argentina: {
+                    dimensions: '40×40 mm',
+                    resolution: '472×472 pixels',
+                    background: 'Pure white',
+                    faceCoverage: '70%-80% of frame'
+                },
+                philippines: {
+                    dimensions: '50×50 mm',
+                    resolution: '591×591 pixels',
+                    background: 'Pure white',
+                    faceCoverage: '70%-80% of frame'
+                },
+                mexico: {
+                    dimensions: '39×31 mm (horizontal)',
+                    resolution: '460×366 pixels',
+                    background: 'Pure white',
+                    faceCoverage: '65%-75% of frame'
+                }
+            };
+            
+            return specs[countryCode] || specs.usa;
+        }
+        
+        // Update step
+        function updateStep(step) {
+            currentStep = step;
+            document.querySelectorAll('.step').forEach((stepEl, index) => {
+                stepEl.classList.remove('active', 'completed', 'pending');
+                
+                if (index + 1 < step) {
+                    stepEl.classList.add('completed');
+                } else if (index + 1 === step) {
+                    stepEl.classList.add('active');
+                } else {
+                    stepEl.classList.add('pending');
+                }
+            });
+        }
+        
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load donation statistics
+            loadDonationStats();
+            
+            // Country selection
+            document.querySelectorAll('.country-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.country-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedCountry = this.dataset.country;
+                    showRequirements(selectedCountry);
+                    updateStep(2);
+                    document.getElementById('uploadArea').style.display = 'block';
+                });
+            });
+            
+            // File upload
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    if (e.target.files && e.target.files.length > 0) {
+                        handleFileUpload(e.target.files[0]);
+                    }
+                });
+            }
+            
+            // Drag and drop upload
+            const uploadArea = document.getElementById('uploadArea');
+            if (uploadArea) {
+                uploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragover');
+                });
+                
+                uploadArea.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                });
+                
+                uploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                    
+                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                        handleFileUpload(e.dataTransfer.files[0]);
+                    }
+                });
+            }
+            
+            // Download button
+            const downloadBtn = document.getElementById('downloadBtn');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function() {
+                    if (window.processedImage) {
+                        const link = document.createElement('a');
+                        link.download = `visa_photo_${selectedCountry}_${Date.now()}.jpg`;
+                        link.href = window.processedImage;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        showMessage('📱 Ultra HD photo download complete!', 'success');
+                    } else {
+                        showMessage('❌ Please upload and process photo first', 'error');
+                    }
+                });
+            }
+            
+            // Fine-tune button
+            const adjustBtn = document.getElementById('adjustBtn');
+            if (adjustBtn) {
+                adjustBtn.addEventListener('click', function() {
+                    showMessage('Fine-tune feature is being improved...', 'info');
+                });
+            }
+            
+            // Feedback buttons
+            document.querySelectorAll('#feedbackSection .btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showMessage('Thank you for your feedback!', 'success');
+                });
+            });
+        });
+
+        // Initialize Stripe
+        const stripe = Stripe('pk_test_51RwXdwCr76Sn3PRLes0DB9WZMHgQBczuQWTupIuHeWBjZA8MsxQWHwZt5aFFlquKtneGpY4q1UPNlipLk0XcyAwN00xCpBNJ6D');
+        
+        // Donation handling
+        function handleDonation(amount, currency = 'usd') {
+            // Show loading state
+            showMessage('Processing donation request...', 'info');
+            
+            // In a real application, you would create a payment intent on your server
+            // For demo purposes, we'll simulate the Stripe checkout process
+            setTimeout(() => {
+                // Simulate successful payment
+                showMessage(`Thank you for your donation! Amount: $${(amount/100).toFixed(2)}`, 'success');
+                
+                // Here you would typically:
+                // 1. Create a payment intent on your server
+                // 2. Redirect to Stripe Checkout
+                // 3. Handle the payment result
+                
+                // For now, we'll simulate a successful donation
+                setTimeout(() => {
+                    showMessage('Donation processed successfully! Thank you for your support!', 'success');
+                    
+                    // You could also track successful donations here
+                    console.log(`Donation received: ${amount} ${currency}`);
+                    updateDonationStats(amount); // Update stats after successful donation
+                }, 2000);
+            }, 1500);
+        }
+        
+        // Enhanced donation handling with Stripe (for production use)
+        async function handleStripeDonation(amount, currency = 'usd') {
+            try {
+                showMessage('Creating payment session...', 'info');
+                
+                // In production, you would make an API call to your server to create a payment intent
+                // const response = await fetch('/api/create-payment-intent', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({ amount, currency })
+                // });
+                // const { clientSecret } = await response.json();
+                
+                // For demo purposes, we'll simulate the process
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Redirect to Stripe Checkout (in production)
+                // const result = await stripe.redirectToCheckout({
+                //     sessionId: clientSecret
+                // });
+                
+                // For demo, show success
+                showMessage(`Donation request created! Amount: $${(amount/100).toFixed(2)}`, 'success');
+                
+            } catch (error) {
+                console.error('Payment error:', error);
+                showMessage('Payment processing error, please try again later', 'error');
+            }
+        }
+        
+        // Custom amount handling
+        document.getElementById('customAmountBtn').addEventListener('click', function() {
+            const customSection = document.getElementById('customAmountSection');
+            customSection.style.display = customSection.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        document.getElementById('confirmCustomAmount').addEventListener('click', function() {
+            const amount = document.getElementById('customAmount').value;
+            if (amount && amount > 0) {
+                handleDonation(parseInt(amount) * 100);
+                document.getElementById('customAmountSection').style.display = 'none';
+                document.getElementById('customAmount').value = '';
+            } else {
+                showMessage('Please enter a valid amount', 'error');
+            }
+        });
+        
+        // Donation buttons
+        document.querySelectorAll('.donation-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const amount = this.dataset.amount;
+                const currency = this.dataset.currency;
+                
+                if (amount) {
+                    handleDonation(parseInt(amount), currency);
+                } else {
+                    // Custom amount button
+                    document.getElementById('customAmountSection').style.display = 'block';
+                }
+            });
+        });
+        
+        // Donation statistics
+        let donationStats = {
+            totalDonors: 0,
+            totalAmount: 0,
+            monthlyGoal: 10000 // $100 in cents
+        };
+        
+        function updateDonationStats(amount) {
+            donationStats.totalDonors++;
+            donationStats.totalAmount += amount;
+            
+            // Update display
+            document.getElementById('totalDonors').textContent = donationStats.totalDonors;
+            document.getElementById('totalAmount').textContent = `$${(donationStats.totalAmount / 100).toFixed(2)}`;
+            
+            // Update progress bar
+            const progressPercent = Math.min((donationStats.totalAmount / donationStats.monthlyGoal) * 100, 100);
+            document.getElementById('goalProgress').style.width = progressPercent + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progressPercent) + '%';
+            
+            // Save to localStorage
+            localStorage.setItem('donationStats', JSON.stringify(donationStats));
+        }
+        
+        function loadDonationStats() {
+            const saved = localStorage.getItem('donationStats');
+            if (saved) {
+                donationStats = JSON.parse(saved);
+                updateDonationStats(0); // Update display without adding amount
+            }
+        }
+    </script>
+</body>
+</html>
