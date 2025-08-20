@@ -1,0 +1,44 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy static site to Netlify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Netlify CLI
+        run: npm i -g netlify-cli
+
+      - name: Deploy to Netlify (production)
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          PROJECT_ID_NETILIFY: ${{ secrets.PROJECT_ID_NETILIFY }}
+          PROJECT_ID_TRUE: ${{ secrets.PROJECT_ID_TRUE }}
+        run: |
+          echo "Deploying commit $GITHUB_SHA to Netlify prod..."
+          # Deploy current repo root as publish dir (static site)
+          netlify deploy \
+            --auth "$NETLIFY_AUTH_TOKEN" \
+            --site "$NETLIFY_SITE_ID" \
+            --dir "." \
+            --prod \
+            --message "GitHub Actions deploy $GITHUB_SHA"
+
+      - name: Print deploy metadata (sanitized)
+        run: |
+          echo "PROJECT_ID_NETILIFY set: ${PROJECT_ID_NETILIFY:+yes}" 
+          echo "PROJECT_ID_TRUE set: ${PROJECT_ID_TRUE:+yes}"
