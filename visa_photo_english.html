@@ -670,6 +670,14 @@
             mexico: "Mexico visa requirements: 39x31mm horizontal, pure white background, head occupies 65%-75%, no accessories"
         };
         
+        // Global processing rules (ROLES)
+        const ROLES = [
+            "Subject is strictly centered horizontally and vertically",
+            "Output fully fills the canvas with no white borders on any side",
+            "Preserve full head within frame; do not crop forehead or chin",
+            "Render background per country requirement (white or light grey)"
+        ];
+        
         // Enhanced high-quality image processing function
         function processImageForVisa(imageDataUrl) {
             return new Promise((resolve) => {
@@ -819,6 +827,11 @@
                     }
                     
                     // Draw image to completely fill the canvas
+                    // Clamp position to ensure no white borders on any side
+                    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+                    // Ensure left/top not beyond 0 and right/bottom cover canvas
+                    drawX = clamp(drawX, targetWidth - drawWidth, 0);
+                    drawY = clamp(drawY, targetHeight - drawHeight, 0);
                     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
                     
                     // Additional safety check for Japan: ensure head is completely within frame
@@ -840,13 +853,9 @@
                             const newDrawX = (targetWidth - adjustedWidth) / 2;
                             const newDrawY = (targetHeight - adjustedHeight) / 2;
                             
-                            // Ensure head is well within frame
-                            if (newDrawY > -adjustedHeight * 0.1) {
-                                drawY = -adjustedHeight * 0.1;
-                            } else {
-                                drawY = newDrawY;
-                            }
-                            drawX = newDrawX;
+                            // Ensure head is well within frame and no borders
+                            drawY = Math.min(Math.max(newDrawY, targetHeight - adjustedHeight), 0);
+                            drawX = Math.min(Math.max(newDrawX, targetWidth - adjustedWidth), 0);
                             drawWidth = adjustedWidth;
                             drawHeight = adjustedHeight;
                             
